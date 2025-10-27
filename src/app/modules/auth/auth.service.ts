@@ -6,7 +6,7 @@ import { jwtHelper } from "../../helper/jwtHelper";
 
 
 const login = async (payload: { email: string, password: string }) => {
-    console.log(payload)
+    
     const user = await prisma.user.findUniqueOrThrow({
         where: {
             email: payload.email,
