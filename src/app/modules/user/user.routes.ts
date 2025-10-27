@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get(
     "/",
-     auth(UserRole.ADMIN),
+    //  auth(UserRole.ADMIN),
     UserController.getAllFromDB
 )
 
@@ -47,3 +47,6 @@ router.post(
 
 
 export const userRoutes = router;
+
+// john.doe@gmail.com, doctor
+// mejan@gmail.com, Admin
