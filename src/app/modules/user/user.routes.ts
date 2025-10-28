@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get(
     "/",
-    //  auth(UserRole.ADMIN),
+    auth(UserRole.ADMIN),
     UserController.getAllFromDB
 )
 
