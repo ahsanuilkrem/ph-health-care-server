@@ -3,6 +3,7 @@ import { IOptions, paginationHelper } from "../../helper/paginationHelper";
 import { doctorSearchableFields } from "./doctor.constant";
 import { prisma } from "../../shared/prisma";
 import { IDoctorUpdate } from "./doctor.interface";
+import { askOpenRouter } from "../../helper/openRouterClient";
 
 
 
@@ -182,7 +183,13 @@ const getByIdFromDB = async (id: string): Promise<Doctor | null> => {
           specialities: true,
         },
       },
-    //   review: true,
+      doctorSchedules: {
+        include: {
+          schedule: true
+        }
+
+      },
+       review: true,
     },
   });
   return result;
@@ -291,57 +298,57 @@ const softDelete = async (id: string): Promise<Doctor> => {
   });
 };
 
-// type PatientInput = {
-//   symptoms: string;
-// };
+type PatientInput = {
+  symptoms: string;
+};
 
-// const getAISuggestion = async (input: PatientInput) => {
-//   const doctors = await prisma.doctor.findMany({
-//     where: { isDeleted: false },
-//     include: {
-//       doctorSpecialties: {
-//         include: { specialities: true },
-//       },
-//     //   review: { select: { rating: true } },
-//     },
-//   });
+const getAISuggestion = async (input: PatientInput) => {
+  const doctors = await prisma.doctor.findMany({
+    where: { isDeleted: false },
+    include: {
+      doctorSpecialties: {
+        include: { specialities: true },
+      },
+    //   review: { select: { rating: true } },
+    },
+  });
 
-//   const systemMessage = {
-//     role: "system",
-//     content:
-//       "You are a medical recommendation assistant. Based on a patient's symptoms and doctor data including specialties and reviews, suggest the top 5 most suitable doctors return the doctors in an array with the whole data object.",
-//   };
+  const systemMessage = {
+    role: "system",
+    content:
+      "You are a medical recommendation assistant. Based on a patient's symptoms and doctor data including specialties and reviews, suggest the top 5 most suitable doctors return the doctors in an array with the whole data object.",
+  };
 
-//   const userMessage = {
-//     role: "user",
-//     content: `
-// Patient Symptoms: ${input.symptoms}
+  const userMessage = {
+    role: "user",
+    content: `
+Patient Symptoms: ${input.symptoms}
 
-// Here is the list of available doctors (JSON):
-// ${JSON.stringify(doctors)}
+Here is the list of available doctors (JSON):
+${JSON.stringify(doctors)}
 
-// Instructions:
-// 1. Analyze patient symptoms.
-// 2. Determine most relevant specialty.
-// 3. Pick top 5 doctors from that specialty or pick the available even if less than 5.
-// 4. If no doctors found, return an empty array or any other doctor.
-// 5. Prioritize based on highest ratings.
-// 6. Return an array of doctor objects ONLY in valid JSON format.
-// 7. Each doctor object must contain these keys: id, name, specialty, experience, averageRating, appointmentFee.
+Instructions:
+1. Analyze patient symptoms.
+2. Determine most relevant specialty.
+3. Pick top 5 doctors from that specialty or pick the available even if less than 5.
+4. If no doctors found, return an empty array or any other doctor.
+5. Prioritize based on highest ratings.
+6. Return an array of doctor objects ONLY in valid JSON format.
+7. Each doctor object must contain these keys: id, name, specialty, experience, averageRating, appointmentFee.
 
-// Respond ONLY with the JSON array. No extra text or explanation.
-// `,
-//   };
+Respond ONLY with the JSON array. No extra text or explanation.
+`,
+  };
 
-//   const response = await askOpenRouter([systemMessage, userMessage]);
-//   const cleanedJson = response
-//     .replace(/```(?:json)?\s*/, "") // remove ``` or ```json
-//     .replace(/```$/, "") // remove ending ```
-//     .trim();
+  const response = await askOpenRouter([systemMessage, userMessage]);
+  const cleanedJson = response
+    .replace(/```(?:json)?\s*/, "") // remove ``` or ```json
+    .replace(/```$/, "") // remove ending ```
+    .trim();
 
-//   const suggestedDoctors = JSON.parse(cleanedJson);
-//   return suggestedDoctors;
-// };
+  const suggestedDoctors = JSON.parse(cleanedJson);
+  return suggestedDoctors;
+};
 
 export const DoctorService = {
   updateIntoDB,
@@ -349,7 +356,7 @@ export const DoctorService = {
   getByIdFromDB,
   deleteFromDB,
   softDelete,
-//   getAISuggestion,
+  getAISuggestion,
 };
 
 

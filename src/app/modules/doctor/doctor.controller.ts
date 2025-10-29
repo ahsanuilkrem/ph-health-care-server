@@ -106,26 +106,26 @@ const softDelete = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-// const getAiSuggestion = catchAsync(async (req: Request, res: Response) => {
-//     const { symptoms } = req.body;
+const getAiSuggestion = catchAsync(async (req: Request, res: Response) => {
+    const { symptoms } = req.body;
 
-//   // Basic validation
-//   if (!symptoms || typeof symptoms !== 'string' || symptoms.trim().length < 5) {
-//     res.status(httpStatus.BAD_REQUEST).json({
-//       success: false,
-//       message: 'Please provide valid symptoms for doctor suggestion.',
-//     });
-//   }
+  // Basic validation
+  if (!symptoms || typeof symptoms !== 'string' || symptoms.trim().length < 5) {
+    res.status(httpStatus.BAD_REQUEST).json({
+      success: false,
+      message: 'Please provide valid symptoms for doctor suggestion.',
+    });
+  }
 
-//   const result = await DoctorService.getAISuggestion({ symptoms: symptoms.trim() });
+  const result = await DoctorService.getAISuggestion({ symptoms: symptoms.trim() });
 
-//     sendResponse(res, {
-//         statusCode: httpStatus.OK,
-//         success: true,
-//         message: 'Doctor suggestion retrieval successfully',
-//         data: result,
-//     });
-// });
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Doctor suggestion retrieval successfully',
+        data: result,
+    });
+});
 
 
 export const DoctorController = {
@@ -134,5 +134,5 @@ export const DoctorController = {
     getByIdFromDB,
     deleteFromDB,
     softDelete,
-    // getAiSuggestion,
+    getAiSuggestion,
 }

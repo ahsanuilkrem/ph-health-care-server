@@ -50,3 +50,4 @@ export const userRoutes = router;
 
 // john.doe@gmail.com, doctor
 // mejan@gmail.com, Admin
+// ahsankrum@gmail.com, pa
