@@ -10,7 +10,7 @@ import { paginationHelper } from "../../helper/paginationHelper";
 import { stripe } from "../../helper/stripe";
 
 
-const createAppointment = async (user: IAuthUser, payload: any) => {
+const createAppointment = async (user: IAuthUser, payload:{ doctorId: string, scheduleId: string }) => {
     const patientData = await prisma.patient.findUniqueOrThrow({
         where: {
             email: user?.email
@@ -19,7 +19,8 @@ const createAppointment = async (user: IAuthUser, payload: any) => {
 
     const doctorData = await prisma.doctor.findUniqueOrThrow({
         where: {
-            id: payload.doctorId
+            id: payload.doctorId,
+            isDeleted: false
         }
     });
 
