@@ -6,6 +6,8 @@ import config from './config';
 import router from './app/routes';
 import cookieParser from 'cookie-parser';
 import { PaymentController } from './app/modules/Payment/payment.controller';
+import cron from 'node-cron';
+import { AppointmentService } from './app/modules/Appointment/appointment.service';
 
 const app: Application = express();
 
@@ -23,6 +25,20 @@ app.use(cors({
 //parser
 app.use(express.json());
 app.use(cookieParser());
+
+
+
+// cron.schedule('* * * * *', () => {
+//     try {
+//         AppointmentService.cancelUnpaidAppointments();
+//     }
+//     catch (err) {
+//         console.error(err);
+//     }
+// });
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1", router);
 

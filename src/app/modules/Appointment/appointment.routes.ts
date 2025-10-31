@@ -8,12 +8,7 @@ import { AppointmentValidation } from './appointment.validation';
 
 const router = express.Router();
 
-/**
- * ENDPOINT: /appointment/
- * 
- * Get all appointment with filtering
- * Only accessable for Admin & Super Admin
- */
+
 router.get(
     '/',
     auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),

@@ -314,3 +314,40 @@ export const AppointmentService = {
     changeAppointmentStatus,
     cancelUnpaidAppointments
 }
+
+
+// await prisma.$transaction(async (tx) => {
+  // ১️⃣ Review ডিলিট করো
+//   await tx.review.deleteMany({
+//     where: {
+//       appointmentId: { in: appointmentIdsToCancel }
+//     }
+//   });
+
+//   // ২️⃣ Payment ডিলিট করো
+//   await tx.payment.deleteMany({
+//     where: {
+//       appointmentId: { in: appointmentIdsToCancel }
+//     }
+//   });
+
+//   // ৩️⃣ Appointment ডিলিট করো
+//   await tx.appointment.deleteMany({
+//     where: {
+//       id: { in: appointmentIdsToCancel }
+//     }
+//   });
+
+//   // ৪️⃣ Doctor schedule আপডেট করো
+//   for (const unpaidAppointment of unPaidAppointments) {
+//     await tx.doctorSchedules.updateMany({
+//       where: {
+//         doctorId: unpaidAppointment.doctorId,
+//         scheduleId: unpaidAppointment.scheduleId
+//       },
+//       data: {
+//         isBooked: false
+//       }
+//     });
+//   }
+// });
